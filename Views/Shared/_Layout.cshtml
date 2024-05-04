@@ -19,7 +19,7 @@
 <body>
     <partial name="_Header" />
     <div class="container-fluid">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
@@ -40,7 +40,9 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/e19c476714.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/scrolltop.js"></script>
+    <script src="~/js/togglemenu.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
