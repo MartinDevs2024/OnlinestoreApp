@@ -18,7 +18,7 @@ namespace EcommerceApp.Data
 		public DbSet<Post> Posts { get; set; }
         public DbSet<MainComment> MainComments { get; set; }
 		public DbSet<SubComment> SubComments { get; set; }
-
+		public DbSet<MyMessage> MyMessages { get; set; }
 
 	}
 }

@@ -18,9 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Repository\IRepository\" />
     <Folder Include="wwwroot\content\blog\" />
     <Folder Include="wwwroot\content\images\img\" />
-    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\images\bg\" />
   </ItemGroup>
 
 </Project>

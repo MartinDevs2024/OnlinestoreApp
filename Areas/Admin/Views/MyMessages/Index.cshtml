@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MyMessage>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="wrapper">
+    <partial name="_AdminSideNavbar" />
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Topbar -->
+            <!-- Topbar -->
+            <partial name="_AdminTopBar" />
+            <div class="container-fluid">
+                <div class="text-center mt-3">
+                    <h2>My-Messages</h2>
+                    <hr />
+                </div>
+                <div class="table-responsive p-2">
+                    <table id="mymessages" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+        <!-- /#wrapper -->
+    </div>
+</div>
+@section scripts {
+    <script src="~/js/mymessagelist.js"></script>
+}

@@ -8,13 +8,14 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="Index">Blog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Manage Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin"
+                       asp-for="Admin" asp-controller="Panel" asp-action="Index">Panel</a>
                 </li>
             </ul>
             <partial name="_LoginPartial" />
