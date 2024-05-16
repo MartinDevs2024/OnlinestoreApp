@@ -11,7 +11,7 @@ function loadDataTable() {
         },
         "columns": [
             { "data": "name", "width": "50%" },
-            { "data": "diplayOrder", "width": "30%" },
+            { "data": "displayOrder", "width": "30%" },
             {
                 "data": "id",
                 "render": function (data) {

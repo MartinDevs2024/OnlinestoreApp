@@ -1,4 +1,5 @@
 ﻿using EcommerceApp.Data;
+using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
@@ -8,12 +9,12 @@ namespace EcommerceApp.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class CategoryController : Controller
 	{
-		private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-		public CategoryController(ApplicationDbContext context)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-			_context = context;
-		}
+            _unitOfWork = unitOfWork;
+        }
         public IActionResult Index()
 		{
 			return View();
@@ -31,8 +32,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_context.Categories.Add(obj);
-				_context.SaveChanges();
+				_unitOfWork.Category.Add(obj);
+				_unitOfWork.Save();
 				TempData["success"] = "Category created successfully";
 				return RedirectToAction("Index");
 			}
@@ -48,7 +49,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 				return NotFound();
 			}
 
-			var categoryFromDb = _context.Categories.FirstOrDefault(u => u.Id == id);
+			var categoryFromDb = _unitOfWork.Category
+				.Get(u => u.Id == id);
 			if (categoryFromDb == null)
 			{
 				return NotFound();
@@ -62,8 +64,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		{ 
 		   if(ModelState.IsValid)
 			{
-				_context.Categories.Update(obj);
-				_context.SaveChanges();
+				_unitOfWork.Category.Update(obj);
+				_unitOfWork.Save();
 				TempData["success"] = "Category updated successfully";
 				return RedirectToAction("Index");
 			}
@@ -78,7 +80,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 				return NotFound();
 			}
 
-			var categoryFromDb = _context.Categories.FirstOrDefault(u => u.Id == id);
+			var categoryFromDb = _unitOfWork.Category
+				.Get(u => u.Id == id);
 			if (categoryFromDb == null)
 			{
 				return NotFound();
@@ -90,13 +93,13 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult DeletePost(int? id)
 		{
-			var obj = _context.Categories.FirstOrDefault(u => u.Id == id);
+			var obj = _unitOfWork.Category.Get(u => u.Id == id);
 			if (obj == null)
 			{
 				return NotFound();
 			}
-			_context.Categories.Remove(obj);
-			_context.SaveChanges();
+			_unitOfWork.Category.Remove(obj);
+			_unitOfWork.Save();
 			TempData["success"] = "Category deleted successfully";
 			return RedirectToAction("Index");
 		}
@@ -105,21 +108,22 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-			var objFromDb = _context.Categories.ToList();
+			var objFromDb = _unitOfWork.Category.GetAll();
 			return Json(new { data = objFromDb });
 		}
 
 		[HttpDelete]
 		public IActionResult DeleteCategory(int? id)
 		{
-			var objFromDb = _context.Categories.FirstOrDefault(c => c.Id == id);
+			var objFromDb = _unitOfWork.Category.Get
+				(c => c.Id == id);
 			if (objFromDb == null)
 			{
 				TempData["Error"] = "Error deleting Category";
 				return Json(new { success = false, message = "Error While Deleting" });
 			}
-			_context.Categories.Remove(objFromDb);
-			_context.SaveChanges();
+			_unitOfWork.Category.Remove(objFromDb);
+			_unitOfWork.Save();
 			TempData["success"] = "Category successfully deleted";
 			return Json(new { success = true, message = "Delete sucessful" });		  
 		}

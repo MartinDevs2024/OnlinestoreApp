@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EcommerceApp.Data.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace EcommerceApp.Data.Repository

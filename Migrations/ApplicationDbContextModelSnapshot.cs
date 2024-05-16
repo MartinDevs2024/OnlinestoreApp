@@ -26,7 +26,7 @@ namespace EcommerceApp.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DiplayOrder")
+                    b.Property<int>("DisplayOrder")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

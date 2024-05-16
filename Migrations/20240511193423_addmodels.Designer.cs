@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240505003256_AddMessages")]
-    partial class AddMessages
+    [Migration("20240511193423_addmodels")]
+    partial class addmodels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace EcommerceApp.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DiplayOrder")
+                    b.Property<int>("DisplayOrder")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

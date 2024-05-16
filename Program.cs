@@ -1,4 +1,6 @@
 using EcommerceApp.Data;
+using EcommerceApp.Data.Repository;
+using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Interfaces;
 using EcommerceApp.Services;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFileManager, FileManager>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";
