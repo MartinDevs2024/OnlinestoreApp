@@ -92,7 +92,7 @@ const displayPostItems = (post) => {
                         </ul>
                       </div>
                      <div class="entry-content">
-                          <a asp-action="Detail" href="/UI/Post/Detail/${post.id}" class="btn btn-danger">Read More</a>
+                          <a asp-action="Detail" href="/UI/Posts/Detail/${post.id}" class="btn btn-danger">Read More</a>
                      </div>
                      <div class="card-footer text-muted">
                             Posted on ${new Date(post.created).toLocaleDateString()} by
