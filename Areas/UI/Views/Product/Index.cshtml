@@ -1,0 +1,186 @@
+﻿@model IEnumerable<EcommerceApp.Models.Product>
+
+@{
+    var Title = "Latest Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shop in Online</h1>
+            <p class="lead fw-normal text-white-50 mb-0">With this shop Latest Products</p>
+        </div>
+    </div>
+</header>
+
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">    
+             <div class="col mb-5">
+                        @foreach (var product in Model)
+                        {
+                            <div class="card h-100">
+                                @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                                {
+                                    <!-- Product image-->
+                                    <img class="card-img-top" src="@product.ProductImages.FirstOrDefault().ImageUrl" />
+                                }
+                                else
+                                {
+                                    <!-- Product image-->
+                                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                }
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">@product.Title</h5>
+                                    <p class="card-title text-info">by <b>@product.Author</b></p>
+                                    <!-- Product price-->
+                                    <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
+                                    <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
+                                    <span class="mb-2">$@product.ListPrice.ToString("0.00")</span>
+                                    <hr />
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a asp-action="Details" class="btn btn-outline-dark mt-auto" asp-route-productId="@product.Id">Details</a></div>
+                            </div>
+                    </div>
+                        }
+                    </div>
+                    </div>
+                </div>
+        
+</section>
+
+<!-- All Products -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-3">
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Search</h5>
+                <div class="card-body">
+                    <div class="input-group" id="searchWrapper">
+                        <form action="/" onsubmit="return false">
+                            <input type="text" class="form-control"
+                                   name="searchBar"
+                                   id="search"
+                                   placeholder="Search for...">
+                        </form>
+                    </div>
+                </div>
+                <h5 class="card-header">Categories</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-lg-6">
+                            <button type="button" class="mybtn btn btn-primary filter-btn" data-filter="all">
+                                All
+                            </button>
+                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="websites">
+                                Websites
+                            </button>
+                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="fullstack">
+                                fullstack
+                            </button>
+                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="email">
+                                email-developer
+                            </button>
+                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="frontdeveloper">
+                                front-developer
+                            </button>
+                            <button type="button" class="mybtn btn btn-success btn-rounded filter-btn" data-filter="backdeveloper">
+                                back-developer
+                            </button>
+                            <button type="button" class="mybtn btn btn-success btn-rounded filter-btn" data-filter="ui">
+                                ui-developer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12 mb-4 store-products @product.Category.Name.ToLower()">
+                        <div id="store-products">
+                            <div class="core-features">
+                                <div class="circle">
+                                    @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                                    {
+                                        <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                                    }
+                                </div>
+                                <div class="product-details mb-3">
+                                    <p class="card-title h5 text-primary">@product.Title</p>
+                                    <p class="card-title text-info">by <b>@product.Author</b></p>
+                                    <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
+                                    <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
+                                    <span class="mb-2">$@product.ListPrice.ToString("0.00")</span>
+                                    <hr />
+                                    <a asp-action="Details" class="btn btn-primary formc" asp-route-productId="@product.Id">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        const baseURL = '/api/products';
+        const sectionCard = document.querySelector('#card');
+        const btns = document.querySelectorAll(".mybtn");
+        const storeProducts = document.querySelectorAll(".store-products");
+        //const search
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", (e) => {
+                e.preventDefault();
+                const filter = e.target.dataset.filter;
+                console.log(filter);
+                storeProducts.forEach((product) => {
+                    if (filter === "all") {
+                        product.style.display = "grid";
+                    } else {
+                        if (product.classList.contains(filter)) {
+                            product.style.display = "grid";
+                        } else {
+                            product.style.display = "none";
+                        }
+                    }
+                });
+            });
+        }
+        //Search Filter
+        const search = document.getElementById("search");
+        const productName = document.querySelectorAll(".product-details h4");
+        search.addEventListener("keyup", filterProducts);
+        function filterProducts(e) {
+            const text = e.target.value.toLowerCase();
+            productName.forEach(function (product) {
+                console.log(product);
+                const item = product.firstChild.textContent;
+                if (item.toLowerCase().indexOf(text) != -1) {
+                    product.parentElement.parentElement.style.display = "block";
+                } else {
+                    product.parentElement.parentElement.style.display = "none";
+                }
+            })
+        }
+    </script>
+}

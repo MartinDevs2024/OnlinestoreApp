@@ -1,9 +1,12 @@
 ﻿using EcommerceApp.Data;
+using EcommerceApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class MyMessagesController : Controller
     {
         private readonly ApplicationDbContext _context;

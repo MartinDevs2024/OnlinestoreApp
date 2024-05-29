@@ -1,3 +1,4 @@
+using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,7 +10,8 @@ namespace EcommerceApp.Areas.UI.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger,
+			IUnitOfWork unitOfWork)
 		{
 			_logger = logger;
 		}
