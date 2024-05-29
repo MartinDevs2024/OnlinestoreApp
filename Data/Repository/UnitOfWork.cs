@@ -8,6 +8,7 @@ namespace EcommerceApp.Data.Repository
         public IProductRepository Product { get; private set; }
         public ICategoryRepository Category { get; private set; }
         public IProductImageRepository ProductImage { get; private set; }
+        public ICompanyRepository Company { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -15,6 +16,7 @@ namespace EcommerceApp.Data.Repository
             Product = new ProductRepository(_db);
             Category = new CategoryRepository(_db);
             ProductImage = new ProductImageRepository(_db);
+            Company = new CompanyRepository(_db);
         }
 
         public void Save()

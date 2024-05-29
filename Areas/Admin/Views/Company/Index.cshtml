@@ -1,0 +1,35 @@
+﻿﻿
+<div class="d-flex" id="wrapper">
+    <partial name="_AdminSideNavbar" />
+    <div id="page-content-wrapper" class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+			<a asp-controller="Company" asp-action="Upsert" class="btn btn-warning float-right">
+				<i class="bi bi-plus-circle"></i> &nbsp; Create New Company
+			</a>
+        </nav>
+        <br />
+        <div class="row">
+            <div class="col-6">
+				<h2 class="text-primary">Company List</h2>
+            </div>
+        </div>
+        <br />
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>State</th>
+				<th>Phone Number</th>
+				<th></th>
+			</tr>
+		</thead>
+	    </table>
+    </div>
+</div>
+
+@section Scripts{
+<script src="~/js/company.js"></script>
+}
