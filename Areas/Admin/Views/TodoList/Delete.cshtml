@@ -1,0 +1,49 @@
+﻿@model EcommerceApp.Models.TodoList
+﻿﻿
+@{
+    var title = "New TodoList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="wrapper">
+    <partial name="_AdminSideNavbar" />
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Topbar -->
+            <!-- Topbar -->
+            <partial name="_AdminTopBar" />
+            <!-- End of Topbar -->
+            <!-- End of Main Content -->
+            <div class="container-fluid">
+				<form method="post" asp-action="Delete">
+					<input asp-for="Id" hidden />
+					<div class="border p-3 mt-4">
+						<div class="row pb-2">
+							<h2 class="text-primary">Delete TodoList</h2>
+							<hr />
+						</div>
+						@*<div asp-validation-summary="All"></div>*@
+						<div class="mb-3">
+							<label asp-for="Title"></label>
+							<input asp-for="Title" disabled class="form-control" />
+						</div>
+						<div class="mb-3">
+							<label asp-for="Description"></label>
+							<input asp-for="Description" disabled class="form-control" />
+						</div>
+						<div class="mb-3">
+							<label asp-for="IsVisible"></label>
+							<input asp-for="IsVisible" disabled class="form-control" />
+						</div>
+						<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+						<a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
+							Back to List
+						</a>
+					</div>
+				</form>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+</div>
+

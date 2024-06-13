@@ -18,12 +18,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Stripe.net" Version="44.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\content\blog\" />
     <Folder Include="wwwroot\content\images\img\" />
-    <Folder Include="wwwroot\images\bg\" />
+    <Folder Include="wwwroot\images\todos\" />
+    <Folder Include="wwwroot\landingpage\img\" />
   </ItemGroup>
 
 </Project>

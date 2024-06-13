@@ -16,7 +16,7 @@
     </div>
 </header>
 
-<!-- Section-->
+@* <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">    
@@ -58,12 +58,12 @@
                 </div>
         
 </section>
-
+ *@
 <!-- All Products -->
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar Widgets Column -->
-        <div class="col-md-3">
+        <div class="col-md-3 small-container">
             <!-- Categories Widget -->
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-9 store-products-container">
             <div class="row">
                 @foreach (var product in Model)
                 {
@@ -141,7 +141,10 @@
         </div>
     </div>
 </div>
-@section scripts{
+
+
+
+@* @section scripts{
     <script>
         const baseURL = '/api/products';
         const sectionCard = document.querySelector('#card');
@@ -183,4 +186,4 @@
             })
         }
     </script>
-}
+} *@
