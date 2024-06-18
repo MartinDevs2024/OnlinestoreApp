@@ -16,49 +16,6 @@
     </div>
 </header>
 
-@* <!-- Section-->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">    
-             <div class="col mb-5">
-                        @foreach (var product in Model)
-                        {
-                            <div class="card h-100">
-                                @if (product.ProductImages != null && product.ProductImages.Count() > 0)
-                                {
-                                    <!-- Product image-->
-                                    <img class="card-img-top" src="@product.ProductImages.FirstOrDefault().ImageUrl" />
-                                }
-                                else
-                                {
-                                    <!-- Product image-->
-                                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                                }
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">@product.Title</h5>
-                                    <p class="card-title text-info">by <b>@product.Author</b></p>
-                                    <!-- Product price-->
-                                    <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
-                                    <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
-                                    <span class="mb-2">$@product.ListPrice.ToString("0.00")</span>
-                                    <hr />
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a asp-action="Details" class="btn btn-outline-dark mt-auto" asp-route-productId="@product.Id">Details</a></div>
-                            </div>
-                    </div>
-                        }
-                    </div>
-                    </div>
-                </div>
-        
-</section>
- *@
 <!-- All Products -->
 <div class="container-fluid">
     <div class="row">
@@ -69,12 +26,10 @@
                 <h5 class="card-header">Search</h5>
                 <div class="card-body">
                     <div class="input-group" id="searchWrapper">
-                        <form action="/" onsubmit="return false">
                             <input type="text" class="form-control"
                                    name="searchBar"
                                    id="search"
                                    placeholder="Search for...">
-                        </form>
                     </div>
                 </div>
                 <h5 class="card-header">Categories</h5>
@@ -144,7 +99,7 @@
 
 
 
-@* @section scripts{
+@section scripts{
     <script>
         const baseURL = '/api/products';
         const sectionCard = document.querySelector('#card');
@@ -186,4 +141,4 @@
             })
         }
     </script>
-} *@
+}
