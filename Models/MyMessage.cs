@@ -12,5 +12,7 @@ namespace EcommerceApp.Models
         public string Email { get; set; }
         [Required]
         public string Message { get; set; }
+        public DateTime DateRead { get; set; }
+        public DateTime MessageSent { get; set; } = DateTime.UtcNow;
     }
 }

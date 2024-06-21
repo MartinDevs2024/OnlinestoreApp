@@ -14,6 +14,12 @@ function loadDataTable() {
             { "data": "email", "width": "25%" },
             { "data": "message", "width": "25%" },
             {
+                "data": "messageSent",
+                'render': function (jsonDate) {
+                    return (moment(jsonDate).format('DD/MM/YYYY HH:mm a'));
+                }
+            },  
+            {
                 "data": "id",
                 "render": function (data) {
                     return `
