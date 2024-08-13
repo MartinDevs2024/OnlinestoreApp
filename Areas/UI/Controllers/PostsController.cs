@@ -6,23 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceApp.Areas.UI.Controllers
 {
     [Area("UI")]
-    public class PostsController : Controller
+    public class PostsController(IPostRepository repo) : Controller
     {
-        private readonly IPostRepository _repo;
-
-        public PostsController(IPostRepository repo)
-        {
-            _repo = repo;
-        }
         public IActionResult Index()
         {
-            var posts = _repo.GetAllPost().ToList();
-            return View(posts);
+            /*var posts = repo.GetAllPost().ToList();
+            return View(posts);*/
+            return View();
         }
 
         public IActionResult Detail(int id)
         {
-            return View(_repo.GetPost(id));
+            return View(repo.GetPost(id));
         }
 
         [HttpPost]
@@ -31,7 +26,7 @@ namespace EcommerceApp.Areas.UI.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Post", new { id = vm.PostId });
 
-            var post = _repo.GetPost(vm.PostId);
+            var post = repo.GetPost(vm.PostId);
 
             if (vm.MainCommentId == 0)
             {
@@ -42,7 +37,7 @@ namespace EcommerceApp.Areas.UI.Controllers
                     Message = vm.Message,
                     Created = DateTime.Now
                 });
-                _repo.UpdatePost(post);
+                repo.UpdatePost(post);
             }
             else
             {
@@ -52,9 +47,9 @@ namespace EcommerceApp.Areas.UI.Controllers
                     Message = vm.Message,
                     Created = DateTime.Now,
                 };
-                _repo.AddSubComment(comment);
+                repo.AddSubComment(comment);
             }
-            await _repo.SaveChangeAsync();
+            await repo.SaveChangeAsync();
             return RedirectToAction("Detail", new { id = vm.PostId });
         }
 
@@ -62,7 +57,7 @@ namespace EcommerceApp.Areas.UI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var objFromPost = _repo.GetAllPost().ToList();
+            var objFromPost = repo.GetAllPost().ToList();
             return Json(new { data = objFromPost });
         }
 

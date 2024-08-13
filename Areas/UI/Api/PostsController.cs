@@ -5,22 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApp.Areas.UI.Api
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PostsController : ControllerBase
+    public class PostsController(IPostRepository repo) : BaseApiController
     {
-        private readonly IPostRepository _repo;
-
-        public PostsController(IPostRepository repo)
-        {
-            _repo = repo;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
-            var posts =_repo.GetAllPost();
+            var posts = repo.GetAllPost();
             return Ok(posts);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Detail(int id)
+        {
+            var post = repo.GetPost(id);
+            return Ok(post);
         }
     }
 }

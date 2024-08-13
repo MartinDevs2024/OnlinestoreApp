@@ -1,13 +1,4 @@
-using EcommerceApp.Data;
-using EcommerceApp.Data.Repository;
-using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Extensions;
-using EcommerceApp.Interfaces;
-using EcommerceApp.Services;
-using EcommerceApp.Utility;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);

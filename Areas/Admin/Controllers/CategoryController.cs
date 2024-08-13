@@ -1,22 +1,13 @@
-﻿using EcommerceApp.Data;
-using EcommerceApp.Data.Repository.IRepository;
+﻿using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Models;
-using EcommerceApp.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace EcommerceApp.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-    public class CategoryController : Controller
+    public class CategoryController(IUnitOfWork unitOfWork) : Controller
 	{
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CategoryController(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+       
         public IActionResult Index()
 		{
 			return View();
@@ -34,8 +25,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_unitOfWork.Category.Add(obj);
-				_unitOfWork.Save();
+				unitOfWork.Category.Add(obj);
+				unitOfWork.Save();
 				TempData["success"] = "Category created successfully";
 				return RedirectToAction("Index");
 			}
@@ -51,7 +42,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
 				return NotFound();
 			}
 
-			var categoryFromDb = _unitOfWork.Category
+			var categoryFromDb = unitOfWork.Category
 				.Get(u => u.Id == id);
 			if (categoryFromDb == null)
 			{
@@ -66,8 +57,8 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		{ 
 		   if(ModelState.IsValid)
 			{
-				_unitOfWork.Category.Update(obj);
-				_unitOfWork.Save();
+				unitOfWork.Category.Update(obj);
+				unitOfWork.Save();
 				TempData["success"] = "Category updated successfully";
 				return RedirectToAction("Index");
 			}
@@ -82,7 +73,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
 				return NotFound();
 			}
 
-			var categoryFromDb = _unitOfWork.Category
+			var categoryFromDb = unitOfWork.Category
 				.Get(u => u.Id == id);
 			if (categoryFromDb == null)
 			{
@@ -95,13 +86,13 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult DeletePost(int? id)
 		{
-			var obj = _unitOfWork.Category.Get(u => u.Id == id);
+			var obj = unitOfWork.Category.Get(u => u.Id == id);
 			if (obj == null)
 			{
 				return NotFound();
 			}
-			_unitOfWork.Category.Remove(obj);
-			_unitOfWork.Save();
+			unitOfWork.Category.Remove(obj);
+			unitOfWork.Save();
 			TempData["success"] = "Category deleted successfully";
 			return RedirectToAction("Index");
 		}
@@ -110,22 +101,22 @@ namespace EcommerceApp.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-			var objFromDb = _unitOfWork.Category.GetAll();
+			var objFromDb = unitOfWork.Category.GetAll();
 			return Json(new { data = objFromDb });
 		}
 
 		[HttpDelete]
 		public IActionResult DeleteCategory(int? id)
 		{
-			var objFromDb = _unitOfWork.Category.Get
+			var objFromDb = unitOfWork.Category.Get
 				(c => c.Id == id);
 			if (objFromDb == null)
 			{
 				TempData["Error"] = "Error deleting Category";
 				return Json(new { success = false, message = "Error While Deleting" });
 			}
-			_unitOfWork.Category.Remove(objFromDb);
-			_unitOfWork.Save();
+			unitOfWork.Category.Remove(objFromDb);
+			unitOfWork.Save();
 			TempData["success"] = "Category successfully deleted";
 			return Json(new { success = true, message = "Delete sucessful" });		  
 		}
