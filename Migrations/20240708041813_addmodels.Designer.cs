@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240531101018_AddMoreModels")]
-    partial class AddMoreModels
+    [Migration("20240708041813_addmodels")]
+    partial class addmodels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,12 +131,18 @@ namespace EcommerceApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("DateRead")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Message")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("MessageSent")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -311,6 +317,10 @@ namespace EcommerceApp.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("REAL");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
@@ -319,10 +329,6 @@ namespace EcommerceApp.Migrations
 
                     b.Property<double>("Price50")
                         .HasColumnType("REAL");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -374,6 +380,28 @@ namespace EcommerceApp.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("EcommerceApp.Models.TodoList", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TodoLists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -439,7 +467,7 @@ namespace EcommerceApp.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(21)
+                        .HasMaxLength(13)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -577,7 +605,7 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("EcommerceApp.Models.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -602,7 +630,7 @@ namespace EcommerceApp.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("EcommerceApp.Models.Comments.MainComment", b =>
@@ -642,7 +670,7 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.OrderHeader", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("EcommerceApp.Models.AppUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -675,7 +703,7 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("EcommerceApp.Models.AppUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -743,7 +771,7 @@ namespace EcommerceApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("EcommerceApp.Models.AppUser", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Company", "Company")
                         .WithMany()

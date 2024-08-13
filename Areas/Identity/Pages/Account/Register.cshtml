@@ -68,6 +68,11 @@
                                            placeholder="Repeat Password">
                                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                 </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="custom-select">
+                                        <option disabled selected>-Select Role-</option>
+                                    </select>
+                                </div>
                             </div>
                             <button id="registerSubmit" type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
                             <hr>
@@ -90,11 +95,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

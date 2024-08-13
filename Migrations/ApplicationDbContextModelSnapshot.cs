@@ -314,6 +314,10 @@ namespace EcommerceApp.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("REAL");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
@@ -322,10 +326,6 @@ namespace EcommerceApp.Migrations
 
                     b.Property<double>("Price50")
                         .HasColumnType("REAL");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -464,7 +464,7 @@ namespace EcommerceApp.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(21)
+                        .HasMaxLength(13)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -602,7 +602,7 @@ namespace EcommerceApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("EcommerceApp.Models.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -627,7 +627,7 @@ namespace EcommerceApp.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("EcommerceApp.Models.Comments.MainComment", b =>
@@ -667,7 +667,7 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.OrderHeader", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("EcommerceApp.Models.AppUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -700,7 +700,7 @@ namespace EcommerceApp.Migrations
 
             modelBuilder.Entity("EcommerceApp.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("EcommerceApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("EcommerceApp.Models.AppUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -768,7 +768,7 @@ namespace EcommerceApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EcommerceApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("EcommerceApp.Models.AppUser", b =>
                 {
                     b.HasOne("EcommerceApp.Models.Company", "Company")
                         .WithMany()

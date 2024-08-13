@@ -54,7 +54,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
             string oldRole = _userManager.GetRolesAsync(_unitOfWork.ApplicationUser.Get(u => u.Id == roleManagmentVM.ApplicationUser.Id))
                     .GetAwaiter().GetResult().FirstOrDefault();
 
-            ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == roleManagmentVM.ApplicationUser.Id);
+            AppUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == roleManagmentVM.ApplicationUser.Id);
 
 
             if (!(roleManagmentVM.ApplicationUser.Role == oldRole))
@@ -93,7 +93,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<ApplicationUser> objUserList = _unitOfWork.ApplicationUser.GetAll(includeProperties: "Company").ToList();
+            List<AppUser> objUserList = _unitOfWork.ApplicationUser.GetAll(includeProperties: "Company").ToList();
 
             foreach (var user in objUserList)
             {

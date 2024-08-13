@@ -21,6 +21,29 @@ namespace EcommerceApp.Areas.Admin.Controllers
             return View(todoList);
         }
 
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(TodoList obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.TodoLists.Add(obj);
+                _context.SaveChanges();
+                TempData["success"] = "Category created successfully";
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+
+        }
+
+
         public IActionResult Edit(Guid id) 
         {
             if (id == null)

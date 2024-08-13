@@ -16,7 +16,7 @@ namespace EcommerceApp.Data.Repository
             var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb != null)
             {
-                objFromDb.Title = obj.Title;
+                objFromDb.Name = obj.Name;
                 objFromDb.ISBN = obj.ISBN;
                 objFromDb.Price = obj.Price;
                 objFromDb.Price50 = obj.Price50;

@@ -16,7 +16,7 @@ namespace EcommerceApp.Data
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<ProductImage> ProductImages { get; set; }
 		public DbSet<Post> Posts { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<AppUser> ApplicationUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<MainComment> MainComments { get; set; }
 		public DbSet<SubComment> SubComments { get; set; }

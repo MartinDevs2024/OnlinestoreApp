@@ -7,7 +7,6 @@ namespace EcommerceApp.Interfaces
     public interface IPostRepository
     {
         Post GetPost(int id);
-
         IndexViewModel GetAllPosts(int pageNumber, string category, string search);
         List<Post> GetAllPost();
         void AddPost(Post post);
@@ -15,6 +14,5 @@ namespace EcommerceApp.Interfaces
         void RemovePost(int id);
         void AddSubComment(SubComment comment);
         Task<bool> SaveChangeAsync();
-         
     }
 }

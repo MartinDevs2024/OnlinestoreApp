@@ -3,7 +3,7 @@ using EcommerceApp.Models;
 
 namespace EcommerceApp.Data.Repository
 {
-    public class ApplicationUserRepository : Repository<ApplicationUser>, IApplicationUserRepository
+    public class ApplicationUserRepository : Repository<AppUser>, IApplicationUserRepository
     {
         private readonly ApplicationDbContext _db;
 
@@ -11,7 +11,7 @@ namespace EcommerceApp.Data.Repository
         {
             _db = db;
         }
-        public void Update(ApplicationUser applicationUser)
+        public void Update(AppUser applicationUser)
         {
             _db.ApplicationUsers.Update(applicationUser);
         }

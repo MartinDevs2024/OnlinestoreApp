@@ -67,14 +67,5 @@ namespace EcommerceApp.Areas.UI.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        #region API CALLS
-        [HttpGet("api/products")]
-        public ActionResult GetAll()
-        {
-            var objFromDb = _unitOfWork.Product.GetAll(includeProperties: "Category");
-            return Json(new { data = objFromDb });
-        }
-        #endregion
     }
 }

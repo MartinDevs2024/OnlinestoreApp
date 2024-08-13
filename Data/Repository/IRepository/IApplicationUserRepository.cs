@@ -2,8 +2,8 @@
 
 namespace EcommerceApp.Data.Repository.IRepository
 {
-    public interface IApplicationUserRepository : IRepository<ApplicationUser>
+    public interface IApplicationUserRepository : IRepository<AppUser>
     {
-        public void Update(ApplicationUser applicationUser);
+        public void Update(AppUser applicationUser);
     }
 }

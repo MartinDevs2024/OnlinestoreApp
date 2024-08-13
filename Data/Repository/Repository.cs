@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace EcommerceApp.Data.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class 
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
