@@ -1,41 +1,14 @@
-﻿/* Global heading-area */
-.heading {
-    padding-top: 7rem;
-    width: 95%;
-    border-bottom: .2rem solid rgba(0,0,0,.3);
-    margin: 0 auto;
-}
-
-    .heading span {
-        font-size: 2rem;
-        padding: 1rem 6rem;
-        color: #fff;
-        background: var(--blue);
-        border-top-right-radius: 3rem;
-        display: inline-block;
-    }
-
-/*BreadCrumb -Area*/
-.page-hero {
-    min-height: 20vh;
-    display: grid;
-    place-items: center;
-    background: var(--grey-200);
-    color: var(--grey-500);
-}
-
-﻿
+﻿/* Global Styles */
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
-    box-sizing: border-box;
     font-size: 62.5%;
 }
 
@@ -49,10 +22,7 @@ body {
     z-index: 1;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
     font-weight: 500;
 }
 
@@ -69,11 +39,36 @@ li {
     list-style: none;
 }
 
-.section {
-    padding: 10rem 0 5rem 0;
+/* Heading Area */
+.heading {
+    padding-top: 7rem;
+    width: 95%;
+    border-bottom: 0.2rem solid rgba(0,0,0,0.3);
+    margin: 0 auto;
 }
 
-/* -- Showcase Area -- */
+    .heading span {
+        font-size: 2rem;
+        padding: 1rem 6rem;
+        color: #fff;
+        background: var(--blue);
+        border-top-right-radius: 3rem;
+        display: inline-block;
+    }
+
+/* Page Hero */
+.page-hero {
+    min-height: 20vh;
+    display: grid;
+    place-items: center;
+    background: var(--grey-200);
+    color: var(--grey-500);
+}
+
+/* Sections */
+.section {
+    padding: 10rem 0 5rem;
+}
 
 .section-a {
     margin: 2rem 0;
@@ -82,7 +77,7 @@ li {
     .section-a .container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 3rem;
+        gap: 3rem;
         align-items: center;
         justify-content: center;
     }
@@ -96,7 +91,7 @@ li {
         margin: 1rem 0;
     }
 
-/* Product */
+/* Products */
 .product-center {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
@@ -121,7 +116,6 @@ li {
     height: 35rem;
     background-color: #f6f2f1;
     transition: all 300ms ease-in-out;
-    z-index: 0;
 }
 
     .product-header img {
@@ -129,20 +123,20 @@ li {
     }
 
 .product-footer {
-    padding: 2rem 1.6rem 1.6rem 1.6rem;
+    padding: 2rem 1.6rem;
 }
 
     .product-footer h3 {
         font-size: 2.2rem;
     }
 
+    .product-footer .price {
+        color: #ff7c9c;
+        font-size: 2rem;
+    }
+
 .rating {
     color: #43b3d9;
-}
-
-.product-footer .price {
-    color: #ff7c9c;
-    font-size: 2rem;
 }
 
 .product:hover .product-header::after {
@@ -173,19 +167,11 @@ li {
         font-size: 2.5rem;
         display: block;
         border-radius: 50%;
-        padding: 1.5rem 1.6rem;
+        padding: 1.5rem;
         line-height: 2rem;
         cursor: pointer;
         transition: all 300ms ease-in-out;
     }
-
-        .product-header .icons span i {
-            transition: all 500ms ease-in-out;
-        }
-
-        .product-header .icons span:not(:last-child) {
-            margin-bottom: 1rem;
-        }
 
         .product-header .icons span:hover {
             background-color: #ff7c9c;
@@ -197,12 +183,7 @@ li {
     transform: translate(0, -50%) scale(1);
 }
 
-.product-header .icons a {
-    display: block;
-    margin-bottom: 1rem;
-}
-
-/* --Testimonials --*/
+/* Testimonials */
 .testimonial-center {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
@@ -214,9 +195,9 @@ li {
     padding: 5rem;
     background-color: #fff;
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-    transition: all 300ms ease-in-out;
     text-align: center;
     border-radius: 0.5rem;
+    transition: all 300ms ease-in-out;
 }
 
     .testimonial:hover {
@@ -229,14 +210,12 @@ li {
         top: 2%;
         left: 50%;
         font-size: 12rem;
-        font-family: sans-serif;
         color: #ff7c9c;
-        line-height: 1;
         transform: translate(-50%, 0);
     }
 
     .testimonial p {
-        margin: 2rem 0 1rem 0;
+        margin: 2rem 0 1rem;
     }
 
     .testimonial .rating {
@@ -260,7 +239,7 @@ li {
         margin-top: 1rem;
     }
 
-/* Brands-Area */
+/* Brands */
 .brands-center {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -282,64 +261,20 @@ li {
         grid-template-columns: repeat(3, 1fr);
     }
 }
-/*-----------------
-  Contact-area
--------------------*/
+
+/* Contact Area */
 .contact {
     background: #333;
     color: #fff;
 }
 
-section.cta {
-    position: relative;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-    background-position: center;
-    background-image: url('/../images/bg-cta.jpg');
-    padding: 250px 0;
-}
-
-    section.cta .cta-content {
-        position: relative;
-        z-index: 1;
-    }
-
-        section.cta .cta-content h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
-            color: white;
-            max-width: 450px;
-            font-size: 50px;
-        }
-
-@media (min-width: 768px) {
-    section.cta .cta-content h2 {
-        font-size: 80px;
-    }
-}
-
-section.cta .overlay {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/*-------------
-Send Message Area
---------------*/
 .contact-area {
     padding: 100px;
     text-align: center;
 }
 
     .contact-area h2 {
-        margin-top: 0;
-        margin-bottom: 25px;
+        margin: 0 0 25px;
     }
 
         .contact-area h2 i {
@@ -360,53 +295,74 @@ Send Message Area
             color: white;
         }
 
-        .contact-area ul.list-social li.social-twitter a {
-            background-color: #1da1f2;
-        }
+.social-twitter a {
+    background-color: #1da1f2;
+}
 
-            .contact-area ul.list-social li.social-twitter a:hover {
-                background-color: #0d95e8;
-            }
+    .social-twitter a:hover {
+        background-color: #0d95e8;
+    }
 
-        .contact-area ul.list-social li.social-facebook a {
-            background-color: #3b5998;
-        }
+.social-facebook a {
+    background-color: #3b5998;
+}
 
-            .contact-area ul.list-social li.social-facebook a:hover {
-                background-color: #344e86;
-            }
+    .social-facebook a:hover {
+        background-color: #344e86;
+    }
 
-        .contact-area ul.list-social li.social-google-plus a {
-            background-color: #dd4b39;
-        }
+.social-google-plus a {
+    background-color: #dd4b39;
+}
 
-            .contact-area ul.list-social li.social-google-plus a:hover {
-                background-color: #d73925;
-            }
+    .social-google-plus a:hover {
+        background-color: #d73925;
+    }
 
-
-
-/*-- Contact Form --*/
-
-#contact p {
+#contact p a {
     color: white;
 }
 
-    #contact p a {
-        color: white;
+/* CTA Section */
+.cta {
+    position: relative;
+    background-image: url('/../images/bg-cta.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 250px 0;
+}
+
+    .cta .cta-content {
+        position: relative;
+        z-index: 1;
     }
 
+        .cta .cta-content h2 {
+            color: white;
+            max-width: 450px;
+            font-size: 50px;
+        }
 
+    .cta .overlay {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-/* ========= Footer ======== */
+@media (min-width: 768px) {
+    .cta .cta-content h2 {
+        font-size: 80px;
+    }
+}
+
+/* Footer */
 .footer {
     background-color: #222;
     padding: 6rem 1rem;
     line-height: 3rem;
-}
-
-.footer-center span {
-    margin-right: 1rem;
 }
 
 .footer-container {
@@ -415,22 +371,16 @@ Send Message Area
     color: var(--white);
 }
 
-.footer-center a:link,
-.footer-center a:visited {
+.footer-center a {
     display: block;
     color: #f1f1f1;
     font-size: 1.4rem;
     transition: 0.6s;
 }
 
-.footer-center a:hover {
-    color: var(--pink);
-}
-
-.footer-center div {
-    color: #f1f1f1;
-    font-size: 1.4rem;
-}
+    .footer-center a:hover {
+        color: var(--pink);
+    }
 
 .footer-center h3 {
     font-size: 1.8rem;
@@ -448,6 +398,5 @@ Send Message Area
 @media only screen and (max-width: 768px) {
     .footer-container {
         grid-template-columns: 1fr;
-        row-gap: 2rem;
     }
 }

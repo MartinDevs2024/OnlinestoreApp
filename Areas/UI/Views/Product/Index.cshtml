@@ -1,11 +1,14 @@
-﻿@model IEnumerable<EcommerceApp.Models.Product>
+﻿@model X.PagedList.IPagedList<EcommerceApp.Models.Product>
+@using X.PagedList.Mvc.Core; 
+
 
 @{
     var Title = "Latest Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<!-- Header-->
+<!-- Header -->
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
@@ -20,81 +23,105 @@
     <div class="row">
         <!-- Sidebar Widgets Column -->
         <div class="col-md-3 small-container">
-            <!-- Categories Widget -->
+            <!-- Search Widget -->
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
                 <div class="card-body">
-                    <div class="input-group" id="searchWrapper">
-                            <input type="text" class="form-control"
-                                   name="searchBar"
-                                   id="search"
-                                   placeholder="Search for...">
-                    </div>
+                    <form method="get" action="@Url.Action("Index")">
+                        <div class="input-group mb-2" id="searchWrapper">
+                            <input type="text" name="searchQuery" class="form-control" id="search" placeholder="Search for..." value="@ViewBag.SearchQuery" />
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                        <div class="text-center">
+                            <a href="@Url.Action("Index", new { searchQuery = "", categoryFilter = "all" })" class="btn btn-secondary">Go Back to All</a>
+                        </div>
+                    </form>
                 </div>
+
+                <!-- Categories Widget -->
                 <h5 class="card-header">Categories</h5>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 col-sm-6 col-lg-6">
-                            <button type="button" class="mybtn btn btn-primary filter-btn" data-filter="all">
-                                All
-                            </button>
-                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="websites">
-                                Websites
-                            </button>
-                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="fullstack">
-                                fullstack
-                            </button>
-                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="email">
-                                email-developer
-                            </button>
-                            <button type="button" class="mybtn btn btn-success filter-btn" data-filter="frontdeveloper">
-                                front-developer
-                            </button>
-                            <button type="button" class="mybtn btn btn-success btn-rounded filter-btn" data-filter="backdeveloper">
-                                back-developer
-                            </button>
-                            <button type="button" class="mybtn btn btn-success btn-rounded filter-btn" data-filter="ui">
-                                ui-developer
-                            </button>
+                        <div class="col-md-12">
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "all" })" class="btn btn-primary mb-2">All</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "websites" })" class="btn btn-success mb-2">Websites</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "fullstack" })" class="btn btn-success mb-2">Fullstack</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "email" })" class="btn btn-success mb-2">Email Developer</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "frontdeveloper" })" class="btn btn-success mb-2">Front Developer</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "backdeveloper" })" class="btn btn-success mb-2">Back Developer</a>
+                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "ui" })" class="btn btn-success mb-2">UI Developer</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Products Listing -->
         <div class="col-md-9 store-products-container">
-            <div class="row">
-                @foreach (var product in Model)
-                {
-                    <div class="col-md-3 col-sm-6 col-xs-12 mb-4 store-products @product.Category.Name.ToLower()">
-                        <div id="store-products">
-                            <div class="core-features">
-                                <div class="circle">
-                                    @if (product.ProductImages != null && product.ProductImages.Count() > 0)
-                                    {
-                                        <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
-                                    }
-                                    else
-                                    {
-                                        <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
-                                    }
-                                </div>
-                                <div class="product-details mb-3">
-                                    <p class="card-title h5 text-primary">@product.Name</p>
-                                    <p class="card-title text-info">by <b>@product.Author</b></p>
-                                    <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
-                                    <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
-                                    <span class="mb-2">$@product.ListPrice.ToString("0.00")</span>
-                                    <hr />
-                                    <a asp-action="Details" class="btn btn-primary formc" asp-route-productId="@product.Id">Details</a>
+            @if (Model.Any())
+            {
+                <div class="row">
+                    @foreach (var product in Model)
+                    {
+                        var categoryClass = product.Category?.Name?.ToLower() ?? "uncategorized";
+                        <div class="col-md-3 col-sm-6 col-xs-12 mb-4 store-products @categoryClass">
+                            <div id="store-products">
+                                <div class="core-features">
+                                    <div class="circle">
+                                        @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                                        {
+                                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+                                        }
+                                        else
+                                        {
+                                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                                        }
+                                    </div>
+                                    <div class="product-details mb-3">
+                                        <p class="card-title h5 text-primary">@product.Name</p>
+                                        <p class="card-title text-info">by <b>@product.Author</b></p>
+                                        <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
+                                        <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
+                                        <hr />
+                                        <a asp-action="Details" class="btn btn-primary formc" asp-route-productId="@product.Id">Details</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4>No products found in this category.</h4>
                     </div>
-                }
+                </div>
+            }
+
+            <!-- Pagination -->
+            <div class="row">
+                <div class="col h3">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = ViewBag.CategoryFilter, page = page }),
+                             new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" }
+                    })
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 @section scripts{
     <script src="~/js/productlist.js"></script>

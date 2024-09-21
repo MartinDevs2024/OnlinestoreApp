@@ -4,6 +4,7 @@ using EcommerceApp.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace EcommerceApp.Areas.UI.Controllers
 {
@@ -12,6 +13,7 @@ namespace EcommerceApp.Areas.UI.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private const int PageSize = 10;
 
         public ProductController(ILogger<ProductController> logger,
             IUnitOfWork unitOfWork)
@@ -19,10 +21,27 @@ namespace EcommerceApp.Areas.UI.Controllers
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? page, string searchQuery, string categoryFilter)
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
-            return View(productList);
+            int pageNumber = page ?? 1;
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+
+            // Search filtering
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                productList = productList.Where(p => p.Name.Contains(searchQuery) || p.Author.Contains(searchQuery));
+            }
+
+            // Category filtering
+            if (!string.IsNullOrEmpty(categoryFilter) && categoryFilter != "all")
+            {
+                productList = productList.Where(p => p.Category.Name.ToLower() == categoryFilter.ToLower());
+            }
+
+            var pagedList = productList.ToPagedList(pageNumber, PageSize);
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.CategoryFilter = categoryFilter; // pass the category to the view for UI purposes
+            return View(pagedList);
         }
 
         public IActionResult Details(int productId)
@@ -35,7 +54,6 @@ namespace EcommerceApp.Areas.UI.Controllers
             };
             return View(cart);
         }
-
 
         [HttpPost]
         [Authorize]

@@ -51,7 +51,7 @@ namespace EcommerceApp.Data.Repository
             }
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, int pageNumber = 1, int pageSize = 10)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -65,6 +65,10 @@ namespace EcommerceApp.Data.Repository
                     query = query.Include(includeProp);
                 }
             }
+
+            // Apply pagination
+            query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
             return query.ToList();
         }
 

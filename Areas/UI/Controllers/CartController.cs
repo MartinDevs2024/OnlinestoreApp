@@ -22,14 +22,21 @@ namespace EcommerceApp.Areas.UI.Controllers
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            ShoppingCartVM = new()
+            ShoppingCartVM = new ShoppingCartVM()
             {
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
                 includeProperties: "Product"),
-                OrderHeader = new()
+                OrderHeader = new OrderHeader()
             };
+
+            // Check if the shopping cart is empty
+            if (!ShoppingCartVM.ShoppingCartList.Any())
+            {
+                ViewBag.Message = "No items found in your cart."; // Pass a message to the view
+                return View(ShoppingCartVM); // Return early with the empty cart view
+            }
 
             IEnumerable<ProductImage> productImages = _unitOfWork.ProductImage.GetAll();
 

@@ -138,7 +138,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category, ProductImages").ToList();
             return Json(new { data = objProductList });
         }
 
