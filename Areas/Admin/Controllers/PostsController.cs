@@ -103,5 +103,19 @@ namespace EcommerceApp.Areas.Admin.Controllers
             var mine = image.Substring(image.LastIndexOf('.') + 1);
             return new FileStreamResult(_fileManager.ImageStream(image), $"image/{mine}");
         }
+
+        #region 
+          // New API endpoint to return posts as JSON
+    
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var objFromPost = _repo.GetAllPost().ToList();
+            return Json(new { data = objFromPost });
+        }
+
+        #endregion
+
+        
     }
 }

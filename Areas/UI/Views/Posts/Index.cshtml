@@ -76,3 +76,24 @@
 @section Scripts {
     <script src="~/js/postlist.js"></script>
 }
+
+<style>
+   .full-screen-image {
+    position: relative;
+    width: 100%; /* Full width of the container */
+    height: 300px; /* Adjust height as needed */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.full-screen-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%; /* Ensure it covers the width */
+    min-height: 100%; /* Ensure it covers the height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    transform: translate(-50%, -50%); /* Center the image */
+}
+
+</style>

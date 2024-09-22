@@ -43,13 +43,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
+                            <!-- Dynamically Display Categories -->
                             <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "all" })" class="btn btn-primary mb-2">All</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "websites" })" class="btn btn-success mb-2">Websites</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "fullstack" })" class="btn btn-success mb-2">Fullstack</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "email" })" class="btn btn-success mb-2">Email Developer</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "frontdeveloper" })" class="btn btn-success mb-2">Front Developer</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "backdeveloper" })" class="btn btn-success mb-2">Back Developer</a>
-                            <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = "ui" })" class="btn btn-success mb-2">UI Developer</a>
+
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <a href="@Url.Action("Index", new { searchQuery = ViewBag.SearchQuery, categoryFilter = category.Name })" class="btn btn-success mb-2">@category.Name</a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,16 @@
                              new PagedListRenderOptions
                     {
                         LiElementClasses = new string[] { "page-item" },
-                        PageClasses = new string[] { "page-link" }
+                        PageClasses = new string[] { "page-link" },
+                        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,                 // Show up to 5 page links
+                        ClassToApplyToFirstListItemInPager = "first-page", // Custom class for the first page
+                        ClassToApplyToLastListItemInPager = "last-page",   // Custom class for the last page
+                        LinkToPreviousPageFormat = "Prev",                // Custom label for the previous page
+                        LinkToNextPageFormat = "Next"  
                     })
                 </div>
             </div>

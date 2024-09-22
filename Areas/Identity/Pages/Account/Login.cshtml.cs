@@ -103,7 +103,7 @@ namespace EcommerceApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/Admin/Panel"); // Change the default login redirect url to Admin/Panel
+            returnUrl ??= Url.Content("~/Admin/Dashboard"); // Change the default login redirect url to Admin/Panel
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 

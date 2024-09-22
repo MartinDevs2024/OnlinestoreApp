@@ -36,8 +36,8 @@ Admins can log in to the admin panel for product management and order tracking.
 7. Admin Access
 Default Admin Login:
 
-Username: admin@store.com
-Password: admin123
+Username: admin@aol.com
+Password: Abcd1234!
 8. API Documentation
 The API endpoints manage products, user authentication, and orders. For details, refer to the Swagger documentation available at /swagger.
 

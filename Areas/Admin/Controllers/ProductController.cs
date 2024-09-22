@@ -1,10 +1,12 @@
-﻿using EcommerceApp.Data.Repository.IRepository;
+﻿using System.Text.Json;
+using EcommerceApp.Data.Repository.IRepository;
 using EcommerceApp.Models;
 using EcommerceApp.Models.ViewModels;
 using EcommerceApp.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
 namespace EcommerceApp.Areas.Admin.Controllers
 {
@@ -14,6 +16,7 @@ namespace EcommerceApp.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private const int PageSize = 10;
 
         public ProductController(IUnitOfWork unitOfWork,
            IWebHostEnvironment webHostEnvironment)
@@ -135,11 +138,52 @@ namespace EcommerceApp.Areas.Admin.Controllers
 
         #region API CALLS
 
+        // [HttpGet]
+        // public IActionResult GetAll()
+        // {
+        //     List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category, ProductImages").ToList();
+        //     return Json(new { data = objProductList });
+        // }
+
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int? page, string searchQuery, string categoryFilter)
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category, ProductImages").ToList();
-            return Json(new { data = objProductList });
+            int pageNumber = page ?? 1;
+
+            // Fetch the list of categories from the database
+            var categories = _unitOfWork.Category.GetAll();
+
+            // Fetch the product list including related entities (Category, ProductImages)
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+
+            // Search filtering
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                productList = productList.Where(p => p.Name.Contains(searchQuery) || p.Author.Contains(searchQuery));
+            }
+
+            // Category filtering
+            if (!string.IsNullOrEmpty(categoryFilter) && categoryFilter != "all")
+            {
+                productList = productList.Where(p => p.Category.Name.ToLower() == categoryFilter.ToLower());
+            }
+
+            // Pagination
+            var pagedList = productList.ToPagedList(pageNumber, PageSize);
+
+            // Pass categories, search query, and category filter to the view
+            ViewBag.Categories = categories;
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.CategoryFilter = categoryFilter;
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve,
+                WriteIndented = true
+            };
+
+            // Return the paginated product list as JSON
+            return Json(new { data = productList });
         }
 
         [HttpDelete]

@@ -1,4 +1,4 @@
-﻿﻿﻿@{
+﻿﻿@{
     var Title = "New Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,17 +8,18 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <!-- Topbar -->
-            <!-- Topbar -->
             <partial name="_AdminTopBar" />
             <!-- End of Topbar -->
-            <!-- End of Main Content -->
+            
+            <!-- Main Content -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
                         <h2>Store Inventory</h2>
                     </div>
                 </div>
-                <!-- Datatables Examples-->
+                
+                <!-- DataTables Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -33,11 +34,11 @@
                                         <th>ISBN</th>
                                         <th>Price</th>
                                         <th>Author</th>
-                                        <th>Category</th                >
-                                        <th></th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -48,5 +49,6 @@
 </div>
 
 @section scripts {
+    <!-- Product Data Table Script -->
     <script src="~/js/product.js"></script>
 }

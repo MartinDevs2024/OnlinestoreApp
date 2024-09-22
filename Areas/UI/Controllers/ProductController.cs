@@ -13,7 +13,7 @@ namespace EcommerceApp.Areas.UI.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private const int PageSize = 10;
+        private const int PageSize = 8;
 
         public ProductController(ILogger<ProductController> logger,
             IUnitOfWork unitOfWork)
@@ -24,6 +24,11 @@ namespace EcommerceApp.Areas.UI.Controllers
         public IActionResult Index(int? page, string searchQuery, string categoryFilter)
         {
             int pageNumber = page ?? 1;
+
+            // Fetch the list of categories from the database
+            var categories = _unitOfWork.Category.GetAll(); // Replace with your actual data fetching logic
+
+            // Fetch the product list including related entities (Category, ProductImages)
             var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
 
             // Search filtering
@@ -38,9 +43,14 @@ namespace EcommerceApp.Areas.UI.Controllers
                 productList = productList.Where(p => p.Category.Name.ToLower() == categoryFilter.ToLower());
             }
 
+            // Pagination
             var pagedList = productList.ToPagedList(pageNumber, PageSize);
+
+            // Pass categories, search query, and category filter to the view
+            ViewBag.Categories = categories;
             ViewBag.SearchQuery = searchQuery;
-            ViewBag.CategoryFilter = categoryFilter; // pass the category to the view for UI purposes
+            ViewBag.CategoryFilter = categoryFilter;
+
             return View(pagedList);
         }
 

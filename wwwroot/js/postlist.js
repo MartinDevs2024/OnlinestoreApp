@@ -1,6 +1,5 @@
 ﻿//==============Declare values================================
-
-const baseURL = '/api/posts';
+const baseURL = '/UI/Posts/getall';
 const sectionCard = document.querySelector("#card");
 const searchBar = document.getElementById('searchBar');
 const btncontainer = document.querySelector('#btn-container');
@@ -16,13 +15,18 @@ const setupUI = () => {
     displayButtons(btncontainer, pages, index);
 }
 
-
 //================ Initialize the app
 const init = async () => {
     const posts = await loadPosts();
-    pages = paginate(posts);
-    setupUI();
+    // Check if posts are fetched correctly and proceed
+    if (posts && posts.length > 0) {
+        pages = paginate(posts);
+        setupUI();
+    } else {
+        sectionCard.innerHTML = "<h2>Error loading posts. Please try again later.</h2>";
+    }
 }
+
 // ================Button page====================
 btncontainer.addEventListener('click', function (e) {
     if (e.target.classList.contains('btn-container')) return
@@ -45,7 +49,6 @@ btncontainer.addEventListener('click', function (e) {
 })
 
 //================Search Function
-
 searchBar.addEventListener('keyup', (e) => {
     const searchString = e.target.value.toLowerCase();
     filterPosts = postCharacters.filter(post => {
@@ -53,32 +56,40 @@ searchBar.addEventListener('keyup', (e) => {
             post.category.toLowerCase().includes(searchString);
     });
     displayPostItems(filterPosts);
-})
-
+});
 
 //===============Fetch the items
 const loadPosts = async () => {
     try {
         const res = await fetch(baseURL);
-        postCharacters = await res.json();
-        if (!res.ok) throw new Error(`${postCharacters.message} ${res.status}`);
+        const json = await res.json();
+
+        if (!res.ok) throw new Error(`${json.message} ${res.status}`);
+        
+        // Check if API response has the $values property and use it
+        postCharacters = json?.data?.$values ? json.data.$values : json;
+        console.log(postCharacters); // You can now log the posts to see them
         return postCharacters;
     } catch (err) {
-        console.log(err);
+        console.log("Error fetching posts", err);
+        return []; // Return an empty array to avoid undefined errors
     }
 }
 loadPosts();
 
 //====================Display Items to screen
-
-
-//====================Display Items to screen
 const displayPostItems = (post) => {
+    // Check if post is defined and has a length greater than 0
+    if (!post || post.length === 0) {
+        sectionCard.innerHTML = "<h2>Sorry, no products matched your search</h2>";
+        return;
+    }   
+    // Sort the posts by created date
     const sortPost = post.sort((a, b) => (a.created < b.created) ? 1 : -1);
     const htmlString = sortPost.map((post) => {
         return `
               <div class="mb-4 posts item ${post.category}">
-                  <div class="entry-img">
+                    <div class="entry-img full-screen-image">
                         <img class="img-fluid" src="/content/blog/${post.image}" alt="${post.title}" />
                     </div>
                     <div class="entry-title">
@@ -101,11 +112,9 @@ const displayPostItems = (post) => {
               </div>
         `;
     }).join('');
-    if (sortPost.length < 1) {
-        sectionCard.innerHTML = "<h2>Sorry, no products matched your search</h2>";
-    } else {
-        sectionCard.innerHTML = htmlString;
-    }
+
+    // Insert generated HTML into the sectionCard
+    sectionCard.innerHTML = htmlString;
 }
 
 // =====================Display Buttons Filter======================================
@@ -131,8 +140,6 @@ function displayMenuButtons() {
 }
 displayMenuButtons();
 
-
-
 //=============Pagination Function 
 const paginate = (post) => {
     const itemsPerPage = 10;
@@ -143,11 +150,9 @@ const paginate = (post) => {
         return post.slice(start, start + itemsPerPage);
     })
     return newPost;
-
 }
 
 //============Display Buttons for Pagination
-
 const displayButtons = (btncontainer, pages, activeIndex) => {
     let btns = pages.map((_, pageIndex) => {
         return `<button class="page-btn

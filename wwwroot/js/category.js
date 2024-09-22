@@ -7,7 +7,13 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $("#tblData").DataTable({
         "ajax": {
-            "url": "/Admin/Category/GetAll"
+            "url": "/Admin/Category/GetAll",
+            "type": "GET",
+            "datatype": "json",
+            "dataSrc": function (json) {
+                // Assuming the product data is inside json.data.$values
+                return json.data.$values;
+            }
         },
         "columns": [
             { "data": "name", "width": "50%" },

@@ -23,7 +23,11 @@ namespace EcommerceApp.Extensions
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             //Register our Image Service
             services.AddRazorPages();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
             services.AddScoped<IFileManager, FileManager>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
