@@ -1,6 +1,8 @@
 ﻿using EcommerceApp.Interfaces;
 using EcommerceApp.Models.Comments;
 using EcommerceApp.Models.ViewModels;
+using EcommerceApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApp.Areas.UI.Controllers
@@ -21,6 +23,7 @@ namespace EcommerceApp.Areas.UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.Role_Customer)]
         public async Task<IActionResult> Comment(CommentViewModel vm)
         {
             if (!ModelState.IsValid)

@@ -1,0 +1,85 @@
+﻿@model CommentViewModel
+
+@{
+
+}
+
+<style>
+    .post__comments {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .post__input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+        border-top: 1px solid lightgray;
+    }
+
+    .submit-button {
+        display: none; /* Initially hidden */
+        background-color: #007bff; /* Primary button color */
+        color: white; /* Text color */
+        padding: 5px 10px; /* Smaller padding for a smaller button */
+        border: none; /* Remove default border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        font-size: 14px; /* Smaller font size */
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+    .toggle-btn {
+        background-color: #e7e7e7; /* Light gray for the toggle button */
+        color: #333; /* Dark text color */
+        padding: 5px 10px; /* Padding for smaller button */
+        border: none; /* Remove default border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        font-size: 14px; /* Smaller font size */
+    }
+
+        .toggle-btn:hover {
+            background-color: #d0d0d0; /* Slightly darker gray on hover */
+        }
+</style>
+@if (User.Identity.IsAuthenticated)
+                    {
+<div>
+    <form method="post" asp-controller="Posts" asp-action="Comment" class="post__comments">
+        <input asp-for="PostId" type="hidden" />
+        <input asp-for="MainCommentId" type="hidden" />
+        <textarea class="form-control" asp-for="Message" placeholder="Add a comment..."></textarea>
+        <!-- Submit Button -->
+        <button class="btn-comment" type="submit" id="submit-button-@ViewData["CommentId"]" class="submit-button">Submit</button>
+    </form>
+</div>
+}
+else
+{
+    <div>
+        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-danger btn-lg">Sign In</a> to comment on this awesome post!
+    </div>
+}
+<!-- Add JavaScript for Show/Hide functionality -->
+<script>
+    function toggleComment(commentId, submitButtonId) {
+        var commentSection = document.getElementById(commentId);
+        var toggleBtn = event.target;
+        var submitButton = document.getElementById(submitButtonId);
+
+        if (commentSection.style.display === 'none' || commentSection.style.display === '') {
+            commentSection.style.display = 'block';
+            toggleBtn.textContent = 'Dont Reply to Comments';
+            submitButton.style.display = 'block'; // Show submit button
+        } else {
+            commentSection.style.display = 'none';
+            toggleBtn.textContent = 'Reply to Comments';
+            submitButton.style.display = 'none'; // Hide submit button
+        }
+    }
+</script>

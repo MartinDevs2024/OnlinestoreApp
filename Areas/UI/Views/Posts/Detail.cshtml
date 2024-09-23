@@ -6,16 +6,174 @@
     ViewBag.Keywords = $"{Model.Tags?.Replace(",", "")}{Model.Category}";
 }
 
+<!-- Add a <style> block for custom CSS -->
+<style>
+    .main-comment {
+        background-color: #f1f1f1; /* Light gray background */
+        border: 1px solid #ddd; /* Optional border */
+        border-radius: 8px; /* Rounded corners */
+        padding: 25px; /* Inner spacing */
+        margin-top: 20px;
+        margin-bottom: 20px; /* Space between comments */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    .comment-message {
+        background-color: #e9ecef; /* Slightly darker gray for the message */
+        padding: 10px; /* Inner spacing */
+        border-radius: 5px; /* Rounded corners */
+        margin-bottom: 10px; /* Space below message */
+    }
+
+    .comment-label {
+        font-weight: bold; /* Bold text for labels */
+        color: #333; /* Dark color for contrast */
+    }
+
+    .comment-date {
+        color: #777; /* Lighter color for the date */
+        font-size: 14px; /* Smaller font size */
+    }
+    .post__comments {
+        margin-top: 30px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment, .sub-comment {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 15px;
+        position: relative;
+    }
+
+    .comment-header, .sub-comment-header {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .comment-body, .sub-comment-body {
+        color: #555;
+    }
+
+    .sub-comment {
+        margin-left: 30px;
+        padding-left: 20px;
+        border-left: 3px solid #eee;
+    }
+
+    .btn-comment {
+        margin-top: 20px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-comment:hover {
+            background-color: #0056b3;
+        }
+
+    .auth-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .login-link {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+    .entry-title h2 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .entry-img img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .entry-footer {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+        .entry-footer i {
+            margin-right: 5px;
+        }
+
+    .cats, .tags {
+        display: inline-block;
+        padding: 0;
+        margin: 0 10px 0 0;
+        list-style: none;
+    }
+
+        .cats li, .tags li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+            .cats li a, .tags li a {
+                text-decoration: none;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+                .cats li a:hover, .tags li a:hover {
+                    text-decoration: underline;
+                }
+
+    /* Toggle Button Style */
+    .toggle-btn {
+        margin-left: 10px;
+        background-color: #28a745;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .toggle-btn:hover {
+            background-color: #218838;
+        }
+</style>
+
+<!-- Page Hero Section -->
 <section class="page-hero">
     <div class="section-center">
         <h3 class="page-hero-title">Home / MyBlog-Details</h3>
     </div>
 </section>
+
+<!-- Blog Section -->
 <section id="blog" class="blog">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <article class="entry entry-single">
+                    <!-- Blog Post Image -->
                     <div class="entry-img">
                         @if (!String.IsNullOrEmpty(Model.Image))
                         {
@@ -23,12 +181,18 @@
                             <img style="width:100%" class="img-fluid" src="@image_path" />
                         }
                     </div>
+
+                    <!-- Blog Post Title -->
                     <div class="entry-title">
                         <h2 class="blog-post-title">@Model.Title</h2>
                     </div>
+
+                    <!-- Blog Post Content -->
                     <div class="entry-content">
                         @Html.Raw(Model.Body)
                     </div>
+
+                    <!-- Blog Post Footer (Tags and Categories) -->
                     <div class="entry-footer">
                         <i class="bi bi-folder"></i>
                         <ul class="cats">
@@ -42,20 +206,32 @@
                             <li><a href="#">Marketing</a></li>
                         </ul>
                     </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <div class="post__comments">
-                            @{
-                                await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = 0 });
-                            }
-                            @foreach (var c in Model.MainComments)
-                            {
+             
+                    <!-- Display Comments -->
+                    <div class="post__comments">
+                        @{
+                            await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = 0 });
+                        }
+
+                        <!-- Main Comments Section -->
+                        @foreach (var c in Model.MainComments)
+                        {
+                            <!-- Main Comment Container -->
+                            <div id="main-comment-@c.Id" class="main-comment">
                                 <p class="bg-light p-3 mb-3">
                                     <span>Your Comment:</span> @c.Message
                                 </p>
                                 <p><span>Was Created:</span> @c.Created</p>
-                                <div style="margin-left: 20px;">
-                                    <h4>Sub Comments</h4>
+
+                                <!-- Submit and Show/Hide Buttons -->
+                                <div style="margin-top: 10px;">
+                                    <!-- Show/Hide Sub Comments Button -->
+                                    <button class="toggle-btn" onclick="toggleComment('sub-comments-@c.Id')">Reply To Comments</button>
+                                </div>
+
+                                <!-- Sub Comments Section -->
+                                <div id="sub-comments-@c.Id" class="sub-comments" style="display: none; margin-left: 20px;">
+                                    <h4>Comment in this Comment</h4>
                                     @{
                                         await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = c.Id });
                                     }
@@ -67,20 +243,15 @@
                                         <p><span>Was Created:</span> @sc.Created</p>
                                     }
                                 </div>
-                            }
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div>
-                            <a asp-area="Identity" asp-page="/Account/Login">Sign In</a> to comment on this awesome post!
-                        </div>
-                    }
-
-                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Index">Go Back To List</a>
+                            </div>
+                        }
+                    </div>
+                   
+                    <!-- Go Back Button -->
+                    <a class="btn-comment" href="@Url.Action("Index", "Posts")">Go Back To List</a>
                 </article>
             </div>
         </div>
     </div>
 </section>
+

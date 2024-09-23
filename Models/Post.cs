@@ -12,6 +12,6 @@ namespace EcommerceApp.Models
         public string Tags { get; set; } = "";
         public string Category { get; set; } = "";
         public DateTime Created { get; set; } = DateTime.Now;
-        public List<MainComment> MainComments { get; set; }
+        public List<MainComment>? MainComments { get; set; }
     }
 }

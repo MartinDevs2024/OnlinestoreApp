@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+     [Authorize(Roles = SD.Role_Admin)]
     public class PostsController : Controller
     {
         private readonly IPostRepository _repo;
